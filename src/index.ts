@@ -64,7 +64,7 @@ console.log();
 
 // Use the EJS view engine
 // Note: all the EJS views have been written to allow HTML injection
-app.set('views', path.join(process.cwd(), 'views'));
+app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
 // Parse cookies and HTML forms
