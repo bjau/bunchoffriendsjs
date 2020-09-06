@@ -37,7 +37,7 @@ let bind = '127.0.0.1';
 //--------------------------------------------------------
 // Parse command line parameters
 //--------------------------------------------------------
-let portArg = process.argv.indexOf('--port');
+const portArg = process.argv.indexOf('--port');
 if (portArg != -1) {
     if (portArg + 1 >= process.argv.length) {
         console.error('No value supplied for --port parameter');
@@ -78,7 +78,7 @@ app.use(body_parser_1.default.urlencoded({ extended: false }));
 // Use an insecure cookie-based session manager
 app.use(sessions_1.default());
 // Serve the static files
-app.use(express_1.default.static('static'));
+app.use(express_1.default.static(path_1.default.join(__dirname, '../static')));
 // Configure application routes
 app.use(guest_1.default);
 app.use(unsecured_1.default);

@@ -38,7 +38,7 @@ class User {
     // returns null if there is no such user
     static byId(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let users = yield User.byWhere(`id = ${id}`);
+            const users = yield User.byWhere(`id = ${id}`);
             if (users.length > 0)
                 return users[0];
             else
@@ -49,7 +49,7 @@ class User {
     // returns null if there is no such user
     static byLogin(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            let users = yield User.byWhere(`username = '${username}' 
+            const users = yield User.byWhere(`username = '${username}' 
              and password = '${password}'`);
             if (users.length > 0)
                 return users[0];
@@ -60,10 +60,10 @@ class User {
     // Find all users matching the supplied SQL 'where' clause
     static byWhere(where, order) {
         return __awaiter(this, void 0, void 0, function* () {
-            let rows = yield alasql_1.default.promise(`select id, username, password, fullName
+            const rows = yield alasql_1.default.promise(`select id, username, password, fullName
              from users
              where ${where}
-             ` + (order ? `order by ${order}` : ``));
+             ` + (order ? `order by ${order}` : ''));
             return rows.map(row => new User(row.username, row.password, row.fullName, row.id));
         });
     }
@@ -89,7 +89,7 @@ class User {
                     select friendTo
                     from friends
                     where friendFrom = ${this.id}
-             )`, `fullName asc`);
+             )`, 'fullName asc');
     }
     // Find all users in the system who the user could befriend (connect)
     // (i.e., users that this user has not already connected to)
@@ -98,11 +98,11 @@ class User {
                     select friendTo
                     from friends
                     where friendFrom = ${this.id}
-             )`, `fullName asc`);
+             )`, 'fullName asc');
     }
     // Find all posts by this user
     findPosts() {
-        return post_1.default.byWhere(`creator = ${this.id}`, `creationDate desc`);
+        return post_1.default.byWhere(`creator = ${this.id}`, 'creationDate desc');
     }
     // Find all posts by this user and friends of this user
     findFriendPosts() {
@@ -112,7 +112,7 @@ class User {
                 where friendFrom = ${this.id}
                 union all
                 select ${this.id}
-            )`, `creationDate desc`);
+             )`, 'creationDate desc');
     }
 }
 exports.default = User;

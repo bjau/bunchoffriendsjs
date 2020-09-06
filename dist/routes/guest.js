@@ -34,9 +34,9 @@ route.get('/', (_req, res) => {
 // Handle the login data posted from the home page 
 // Usernames are case insensitive
 route.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let username = String(req.body.username || '').toLowerCase();
-    let password = String(req.body.password || '');
-    let user = yield orm_1.User.byLogin(username, password);
+    const username = String(req.body.username || '').toLowerCase();
+    const password = String(req.body.password || '');
+    const user = yield orm_1.User.byLogin(username, password);
     if (user != null) {
         req.session.user = user;
         res.redirect(303, 'home');
@@ -53,10 +53,10 @@ route.get('/signup', (_req, res) => {
 // Prevents duplicate account creation
 route.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Validate the input
-    let username = String(req.body.username || '').toLowerCase();
-    let password = String(req.body.password || '');
-    let fullName = String(req.body.fullName || '');
-    let messages = [];
+    const username = String(req.body.username || '').toLowerCase();
+    const password = String(req.body.password || '');
+    const fullName = String(req.body.fullName || '');
+    const messages = [];
     if (username.length == 0)
         messages.push('Username cannot be empty');
     if (password.length == 0)

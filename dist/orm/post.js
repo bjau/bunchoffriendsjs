@@ -54,7 +54,7 @@ class Post {
     // returns null if there is no such post
     static byId(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            let posts = yield Post.byWhere(`id = ${id}`);
+            const posts = yield Post.byWhere(`id = ${id}`);
             if (posts.length > 0)
                 return posts[0];
             else
@@ -64,13 +64,15 @@ class Post {
     // Find all posts matching the supplied SQL 'where' clause
     static byWhere(where, order) {
         return __awaiter(this, void 0, void 0, function* () {
-            let rows = yield alasql_1.default.promise(`select id, creator, message, creationDate, likes
+            const rows = yield alasql_1.default.promise(`select id, creator, message, creationDate, likes
              from posts
              where ${where}
-             ` + (order ? `order by ${order}` : ``));
-            let result = [];
-            for (let row of rows) {
-                result.push(new Post((yield user_1.default.byId(row.creator)), row.message, row.creationDate, row.likes, row.id));
+             ` + (order ? `order by ${order}` : ''));
+            const result = [];
+            for (const row of rows) {
+                const creator = yield user_1.default.byId(row.creator);
+                if (creator)
+                    result.push(new Post(creator, row.message, row.creationDate, row.likes, row.id));
             }
             return result;
         });
@@ -89,7 +91,7 @@ class Post {
     like() {
         return __awaiter(this, void 0, void 0, function* () {
             // Increase the like count in the database
-            let result = yield alasql_1.default.promise(`update posts 
+            const result = yield alasql_1.default.promise(`update posts 
              set likes = likes + 1
              where id = ${this.id};
              select likes

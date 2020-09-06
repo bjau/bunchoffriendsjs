@@ -12,7 +12,7 @@ import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import insecureSession from './sessions'
+import insecureSession from './sessions';
 import { initialize } from './orm';
 import guest from './routes/guest';
 import unsecured from './routes/unsecured';
@@ -27,7 +27,7 @@ let bind = '127.0.0.1';
 // Parse command line parameters
 //--------------------------------------------------------
 
-let portArg = process.argv.indexOf('--port');
+const portArg = process.argv.indexOf('--port');
 if (portArg != -1) {
     if (portArg + 1 >= process.argv.length) {
         console.error('No value supplied for --port parameter');
@@ -68,14 +68,14 @@ app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
 // Parse cookies and HTML forms
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Use an insecure cookie-based session manager
 app.use(insecureSession());
 
 // Serve the static files
-app.use(express.static('static'))
+app.use(express.static(path.join(__dirname, '../static')));
 
 // Configure application routes
 app.use(guest);

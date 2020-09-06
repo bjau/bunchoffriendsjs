@@ -24,7 +24,7 @@ export default class User {
     // Find the unique user with a matching id
     // returns null if there is no such user
     static async byId(id: number): Promise<User | null> {
-        let users = await User.byWhere(`id = ${id}`);
+        const users = await User.byWhere(`id = ${id}`);
         if (users.length > 0)
             return users[0];
         else
@@ -34,7 +34,7 @@ export default class User {
     // Find the unique user with a matching login username
     // returns null if there is no such user
     static async byLogin(username: string, password: string): Promise<User | null> {
-        let users = await User.byWhere(
+        const users = await User.byWhere(
             `username = '${username}' 
              and password = '${password}'`
         );
@@ -46,18 +46,18 @@ export default class User {
 
     // Find all users matching the supplied SQL 'where' clause
     static async byWhere(where: string, order?: string): Promise<User[]> {
-        let rows = await alasql.promise(
+        const rows = await alasql.promise(
             `select id, username, password, fullName
              from users
              where ${where}
-             ` + (order ? `order by ${order}` : ``)
+             ` + (order ? `order by ${order}` : '')
         );
         return (rows as any[]).map(row => new User(row.username, row.password, row.fullName, row.id));
     }
 
     // Create a new user in the database
     // Updates 'this' with the new 'id'
-    async create() {
+    async create(): Promise<void> {
         try {
             await alasql.promise(
                 `insert into users (username, password, fullName) 
@@ -79,7 +79,7 @@ export default class User {
                     from friends
                     where friendFrom = ${this.id}
              )`,
-             `fullName asc`
+            'fullName asc'
         );
     }
 
@@ -92,7 +92,7 @@ export default class User {
                     from friends
                     where friendFrom = ${this.id}
              )`,
-             `fullName asc`
+            'fullName asc'
         );
     }
 
@@ -100,7 +100,7 @@ export default class User {
     findPosts(): Promise<Post[]> {
         return Post.byWhere(
             `creator = ${this.id}`,
-            `creationDate desc`
+            'creationDate desc'
         );
     }
 
@@ -113,8 +113,8 @@ export default class User {
                 where friendFrom = ${this.id}
                 union all
                 select ${this.id}
-            )`,
-            `creationDate desc`
+             )`,
+            'creationDate desc'
         );
     }
 

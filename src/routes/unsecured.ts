@@ -20,8 +20,8 @@ const route = Router();
 // Shows the list of posts by a friend
 // Note: no validation that the friend actually is a friend of the current user
 route.get('/posts_friend', async (req, res) => {
-    let friendId = Number(req.query.friend);
-    let friend = await User.byId(friendId);
+    const friendId = Number(req.query.friend);
+    const friend = await User.byId(friendId);
     let posts: Post[] = [];
     if (friend != null)
         posts = await friend.findPosts();
@@ -32,13 +32,13 @@ route.get('/posts_friend', async (req, res) => {
 // Note: the back parameter can be used for invalidated redirects
 // Note: no validation to prevent the user from liking their own posts
 route.get('/like', async (req, res) => {
-    let postId = Number(req.query.post);
-    let back = String(req.query.back);
-    let friendId = req.query.friend ? Number(req.query.friend) : null;
-    let post = await Post.byId(postId);
+    const postId = Number(req.query.post);
+    const back = String(req.query.back);
+    const friendId = req.query.friend ? Number(req.query.friend) : null;
+    const post = await Post.byId(postId);
     if (post != null)
-        await post.like()
-    res.redirect(303, back + (friendId ? `?friend=${friendId}` : ``));
+        await post.like();
+    res.redirect(303, back + (friendId ? `?friend=${friendId}` : ''));
 });
 
 // Show the admin zone
@@ -48,27 +48,27 @@ route.get('/admin', (_req, res) => {
 
 // Handle a query posted to the admin zone
 route.post('/admin', async (req, res) => {
-    let query = String(req.body.query);
+    const query = String(req.body.query);
     let rows = null;
     let errors = null;
     try {
         // Perform the SQL query
-        let results = await raw(query);
+        const results = await raw(query);
 
         // Convert the results from any[]
         // into [string[], ...any[][]]
         rows = [];
         if (results && results.length > 0) {
             // Use the first row of results to get the column names
-            let header = [];
-            for (let key in results[0])
+            const header = [];
+            for (const key in results[0])
                 header.push(key);
             rows.push(header);
 
             // Now iterate through each row to build an array of values
-            for (let result of results) {
-                let row = [];
-                for (let key of header)
+            for (const result of results) {
+                const row = [];
+                for (const key of header)
                     row.push(result[key]);
                 rows.push(row);
             }
@@ -76,7 +76,7 @@ route.post('/admin', async (req, res) => {
     } catch (e) {
         errors = e.toString();
     }
-    res.render('admin', { view: 'admin', query, rows, errors })
+    res.render('admin', { view: 'admin', query, rows, errors });
 });
 
 export default route;

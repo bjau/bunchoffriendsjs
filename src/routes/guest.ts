@@ -24,9 +24,9 @@ route.get('/', (_req, res) => {
 // Handle the login data posted from the home page 
 // Usernames are case insensitive
 route.post('/login', async (req, res) => {
-    let username = String(req.body.username || '').toLowerCase();
-    let password = String(req.body.password || '');
-    let user = await User.byLogin(username, password);
+    const username = String(req.body.username || '').toLowerCase();
+    const password = String(req.body.password || '');
+    const user = await User.byLogin(username, password);
     if (user != null) {
         req.session.user = user;
         res.redirect(303, 'home');
@@ -44,11 +44,11 @@ route.get('/signup', (_req, res) => {
 // Prevents duplicate account creation
 route.post('/signup', async (req, res) => {
     // Validate the input
-    let username = String(req.body.username || '').toLowerCase();
-    let password = String(req.body.password || '');
-    let fullName = String(req.body.fullName || '');
+    const username = String(req.body.username || '').toLowerCase();
+    const password = String(req.body.password || '');
+    const fullName = String(req.body.fullName || '');
 
-    let messages = [];
+    const messages = [];
 
     if (username.length == 0)
         messages.push('Username cannot be empty');

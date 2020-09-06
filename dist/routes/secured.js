@@ -39,38 +39,39 @@ route.use((req, res, next) => {
 // Includes a list of posts by friends
 route.get('/home', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    let posts = yield ((_a = req.session.user) === null || _a === void 0 ? void 0 : _a.findFriendPosts());
+    const posts = yield ((_a = req.session.user) === null || _a === void 0 ? void 0 : _a.findFriendPosts());
     res.render('home', Object.assign(Object.assign({}, req.session), { view: 'home', posts }));
 }));
 // Show a list of current friends and people who are not yet friends
 route.get('/friend_list', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _b, _c;
-    let friends = yield ((_b = req.session.user) === null || _b === void 0 ? void 0 : _b.findFriends());
-    let notFriends = yield ((_c = req.session.user) === null || _c === void 0 ? void 0 : _c.findNotFriends());
+    const friends = yield ((_b = req.session.user) === null || _b === void 0 ? void 0 : _b.findFriends());
+    const notFriends = yield ((_c = req.session.user) === null || _c === void 0 ? void 0 : _c.findNotFriends());
     res.render('friend_list', Object.assign(Object.assign({}, req.session), { view: 'friend_list', friends, notFriends }));
 }));
 // Show a list of posts by the current user
 route.get('/posts_me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _d;
-    let posts = yield ((_d = req.session.user) === null || _d === void 0 ? void 0 : _d.findPosts());
+    const posts = yield ((_d = req.session.user) === null || _d === void 0 ? void 0 : _d.findPosts());
     res.render('posts_me', Object.assign(Object.assign({}, req.session), { view: 'posts_me', posts }));
 }));
 // Create a new post and redirect back to the back parameter
 // Note: the back parameter can be used for invalidated redirects
 route.post('/post', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let message = String(req.body.message || '');
-    let back = String(req.body.back || 'home');
-    yield new orm_1.Post(req.session.user, message, new Date(), 0).create();
+    const message = String(req.body.message || '');
+    const back = String(req.body.back || 'home');
+    if (req.session.user)
+        yield new orm_1.Post(req.session.user, message, new Date(), 0).create();
     res.redirect(303, back);
 }));
 // Add/connect to a friend based on their ID
 // Note: a GET request and no CSRF protections makes CSRF possible 
 route.get('/friend_add', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let friendId = Number(req.query.friend);
+    const friendId = Number(req.query.friend);
     // Retrieve the new friend
-    let friend = yield orm_1.User.byId(friendId);
+    const friend = yield orm_1.User.byId(friendId);
     // If found, then add the new relationship/connection
-    if (friend)
+    if (friend && req.session.user)
         new orm_1.Friend(req.session.user, friend).create();
     res.render('friend_add', Object.assign(Object.assign({}, req.session), { view: 'friend_add', friend }));
 }));

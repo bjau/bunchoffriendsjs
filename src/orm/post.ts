@@ -48,7 +48,7 @@ export default class Post {
     // Find the unique post with a matching id
     // returns null if there is no such post
     static async byId(id: number): Promise<Post | null> {
-        let posts = await Post.byWhere(`id = ${id}`);
+        const posts = await Post.byWhere(`id = ${id}`);
         if (posts.length > 0)
             return posts[0];
         else
@@ -57,23 +57,25 @@ export default class Post {
 
     // Find all posts matching the supplied SQL 'where' clause
     static async byWhere(where: string, order?: string): Promise<Post[]> {
-        let rows = await alasql.promise(
+        const rows = await alasql.promise(
             `select id, creator, message, creationDate, likes
              from posts
              where ${where}
-             ` + (order ? `order by ${order}` : ``)
+             ` + (order ? `order by ${order}` : '')
         );
-        let result = [];
-        for (let row of rows) {
-            result.push(
-                new Post(
-                    (await User.byId(row.creator))!, 
-                    row.message,
-                    row.creationDate,
-                    row.likes,
-                    row.id
-                )
-            );
+        const result = [];
+        for (const row of rows) {
+            const creator = await User.byId(row.creator);
+            if (creator)
+                result.push(
+                    new Post(
+                        creator, 
+                        row.message,
+                        row.creationDate,
+                        row.likes,
+                        row.id
+                    )
+                );
         }
         return result;
     }
@@ -92,7 +94,7 @@ export default class Post {
     // Increment the current like count, in the database, by one
     async like(): Promise<void> {
         // Increase the like count in the database
-        let result = await alasql.promise(
+        const result = await alasql.promise(
             `update posts 
              set likes = likes + 1
              where id = ${this.id};
