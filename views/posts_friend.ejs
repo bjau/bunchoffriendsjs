@@ -1,0 +1,19 @@
+<%- include('header_user') %>
+<div class="content">
+    <p>Messages by <%- friend && friend.fullName %>:</p>
+    <%
+        for (let post of posts) {
+            %>
+                <p>
+                    <b><%- post.message %></b><br/>
+                    <i>Posted on
+                        <%- post.formattedDate %>
+                    </i><br/>
+                    <%- post.likes %> Likes (
+                        <a href="like?post=<%- post.id %>&back=posts_friend&friend=<%- friend.id %>">Like</a>
+                    )
+                </p>
+            <%
+        }
+    %>
+</div>

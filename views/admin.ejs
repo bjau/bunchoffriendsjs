@@ -1,0 +1,50 @@
+<%- include('header_guest') %>
+<div class="content">
+    <p>Query (users, friends, posts):</p>
+    <form action="admin" method="POST">
+        <p><textarea name="query"><%= locals.query ? locals.query : '' %></textarea></p>
+        <p><input type="submit" value="Run"/></p>
+        <%
+            if (locals.errors) {
+                %>
+                    <pre><%= locals.errors %></pre>
+                <%
+            }
+            if (locals.rows) {
+                if (locals.rows.length > 0) {
+                    %>
+                        <table>
+                            <%
+                                let index = 0;
+                                for (let row of locals.rows) {
+                                    %>
+                                        <tr>
+                                            <%
+                                                for (let column of row) {
+                                                    if (index == 0) {
+                                                        %>
+                                                            <th><%- column %></th>
+                                                        <%
+                                                    } else {
+                                                        %>
+                                                            <td><%- column %></td>
+                                                        <%
+                                                    }
+                                                }
+                                            %>
+                                        </tr>
+                                    <%
+                                    index++;
+                                }
+                            %>
+                        </table>
+                    <%
+                } else {
+                    %>
+                        <p>No rows returned.</p>
+                    <%
+                }
+            }
+        %>
+    </form>
+</div>

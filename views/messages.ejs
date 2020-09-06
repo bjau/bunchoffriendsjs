@@ -1,0 +1,15 @@
+<%
+if (locals.messages) {
+    %>
+        <ul>
+            <%
+                for (let message of locals.messages) {
+                    %>
+                    <li><%- message %></li>
+                    <%
+                }
+            %>
+        </ul>
+    <%
+}
+%>

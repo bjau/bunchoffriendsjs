@@ -1,0 +1,21 @@
+<%- include('header_guest') %>
+<div class="content">
+    <p><a href="signup">Create a new account</a> or login below.</p>
+    <form action="login" method="POST">
+        <%- include('messages') %>
+        <p>
+            <label>Username:
+                <input type="text" name="username" value="<%- locals.username || '' %>">
+            </label>
+        </p>
+        <p>
+            <label>Password:
+                <input type="password" name="password" value="<%- locals.password || '' %>">
+            </label>
+        </p>
+        <p>
+            <input type="submit" value="Log in">
+        </p>
+    </form>
+</div>
+

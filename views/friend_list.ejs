@@ -1,0 +1,23 @@
+<%- include('header_user') %>
+<div class="content">
+    <p>You are friends with:</p>
+    <ul>
+        <%
+            for (let friend of friends) {
+                %>
+                    <li><%- friend.fullName %> (<a href="posts_friend?friend=<%- friend.id %>">View Posts</a>)</li>
+                <%
+            }
+        %>
+    </ul>
+    <p>You can friend with:</p>
+    <ul>
+        <%
+            for (let friend of notFriends) {
+                %>
+                    <li><%- friend.fullName %> (<a href="friend_add?friend=<%- friend.id %>">Connect</a>)</li>
+                <%
+            }
+        %>
+    </ul>
+</div>

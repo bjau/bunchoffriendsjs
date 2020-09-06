@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<title>BunchOfFriends</title>
+<link href="style.css" rel="stylesheet">
+<div class="top">
+    <h1>BunchOfFriends</h1>
+</div>
+<div class="menu">
+    <ul>
+        <li><a class="<%= view.match('home') ? 'current' : 'other' %>" href="home">Home</a></li>
+        <li><a class="<%= view.match('friend_list') ? 'current' : 'other' %>" href="friend_list">Friends</a></li>
+        <li><a class="<%= view.match('posts_me') ? 'current' : 'other' %>" href="posts_me">Just Your Messages</a></li>
+        <li><a class="<%= view.match('logout') ? 'current' : 'other' %>"href="logout">Logout</a></li>
+    </ul>
+</div>

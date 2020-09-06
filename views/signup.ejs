@@ -1,0 +1,26 @@
+<%- include('header_guest') %>
+<div class="content">
+    <h1>Sign-up</h1>
+    <form action="signup" method="POST">
+        <%- include('messages') %>
+        <p>
+            <label>Username:
+                <input type="text" name="username" value="<%- locals.username || '' %>">
+            </label>
+        </p>
+        <p>
+            <label>Password:
+                <input type="password" name="password" value="<%- locals.password || '' %>">
+            </label>
+        </p>
+        <p>
+            <label>Full Name:
+                <input type="text" name="fullName" value="<%- locals.fullName || '' %>">
+            </label>
+        </p>
+        <p>
+            <input type="submit" value="Sign Up Now">
+            or <a href="/">return to the home page.</a>
+        </p>
+    </form>
+</div>

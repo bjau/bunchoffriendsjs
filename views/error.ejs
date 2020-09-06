@@ -1,0 +1,11 @@
+<%
+    if (locals.user) {
+        %><%- include('header_user') %><%
+    } else {
+        %><%- include('header_guest') %><%
+    }
+%>
+<div class="content">
+    <p>An error occurred:</p>
+    <p><pre><%= error %></pre></p>
+</div>

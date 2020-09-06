@@ -1,0 +1,25 @@
+<%- include('header_user') %>
+<div class="content">
+    <form action="post" method="POST">
+        <input type="hidden" name="back" value="posts_me">
+        <div class="status">
+            <p>How are you feeling? <input type="text" name="message"><input type="submit" value="Post"></p>
+        </div>
+        <div class="content">
+            <p>Messages by you:</p>
+            <%
+                for (let post of posts) {
+                    %>
+                        <p>
+                            <b><%- post.message %></b><br/>
+                            <i>Posted on
+                                <%- post.formattedDate %>
+                            </i><br/>
+                            <%- post.likes %> Likes
+                        </p>
+                    <%
+                }
+            %>
+        </div>
+    </form>
+</div>
