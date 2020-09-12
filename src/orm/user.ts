@@ -91,6 +91,8 @@ export default class User {
                     select friendTo
                     from friends
                     where friendFrom = ${this.id}
+                    union all
+                    select ${this.id}
              )`,
             'fullName asc'
         );
