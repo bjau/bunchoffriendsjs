@@ -7,22 +7,26 @@
             <p>How are you feeling? <input type="text" name="message"><input type="submit" value="Post"></p>
         </div>
         <div class="content">
-            <p>Messages:</p>
             <%
-                for (let post of posts) {
-                    %>
-                        <p>
-                            <b><%- post.message %></b><br/>
-                            <i>Posted by: <%- post.creator.fullName %> on <%- post.formattedDate %></i><br/>
-                            <%- post.likes %> Likes <% 
-                                if (post.creator.id != user.id) {
-                                    %>
-                                        (<a href="like?post=<%- post.id %>&back=home">Like</a>)
-                                    <%
-                                }
-                            %>
-                        </p>
-                    <%
+                if (posts.length > 0) {
+                %>
+                <p>Messages:</p>
+                <%
+                    for (let post of posts) {
+                        %>
+                            <p>
+                                <b><%- post.message %></b><br/>
+                                <i>Posted by: <%- post.creator.fullName %> on <%- post.formattedDate %></i><br/>
+                                <%- post.likes %> Likes <% 
+                                    if (post.creator.id != user.id) {
+                                        %>
+                                            (<a href="like?post=<%- post.id %>&back=home">Like</a>)
+                                        <%
+                                    }
+                                %>
+                            </p>
+                        <%
+                    }
                 }
             %>
         </div>

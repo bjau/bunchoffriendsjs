@@ -8,14 +8,22 @@
         <div class="content">
             <p>Messages by you:</p>
             <%
-                for (let post of posts) {
+                if (posts.length > 0) {
+                    for (let post of posts) {
+                        %>
+                            <p>
+                                <b><%- post.message %></b><br/>
+                                <i>Posted on
+                                    <%- post.formattedDate %>
+                                </i><br/>
+                                <%- post.likes %> Likes
+                            </p>
+                        <%
+                    }
+                } else {
                     %>
                         <p>
-                            <b><%- post.message %></b><br/>
-                            <i>Posted on
-                                <%- post.formattedDate %>
-                            </i><br/>
-                            <%- post.likes %> Likes
+                            You have not posted anything yet.
                         </p>
                     <%
                 }
